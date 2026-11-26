@@ -28,7 +28,7 @@ jobs:
           - {distro: ubuntu, image: "ubuntu:latest"}
           - {distro: fedora, image: "fedora:latest"}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: bash .github/scripts/kernel-build.sh ${{ matrix.distro }} ${{ matrix.branch }}
 
   report:

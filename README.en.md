@@ -90,6 +90,8 @@ On top of that, a weekly CI job **builds the driver** against the latest Omarchy
 
 **Tried it on another distro or adapter?** [Tell us here](../../issues/new?template=works.yml) (1 minute) and we'll add it to the table.
 
+In the Omarchy community: [Show and tell post](https://github.com/omacom/omarchy/discussions/20296).
+
 ## Requirements
 
 - **Internet during install:** built-in Wi-Fi, cable, or USB tethering from your phone.

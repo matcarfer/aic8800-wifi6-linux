@@ -90,6 +90,8 @@ Además, una CI semanal **compila el driver** contra el último kernel de Omarch
 
 **¿Lo probaste en otra distro o con otra placa?** [Contalo acá](../../issues/new?template=works.yml) (1 minuto) y la sumamos a la tabla.
 
+En la comunidad de Omarchy: [post en Show and tell](https://github.com/omacom/omarchy/discussions/20296).
+
 ## Requisitos
 
 - **Internet durante la instalación:** el WiFi de la notebook, cable o el celular compartiendo internet por USB.

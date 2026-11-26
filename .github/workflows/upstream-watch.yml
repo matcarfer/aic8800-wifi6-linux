@@ -17,7 +17,7 @@ jobs:
       GH_REPO: ${{ github.repository }}
       UP: shenmintao/aic8800d80
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: |
           pinned_main=$(sed -n 's/^REF_MAIN="\([0-9a-f]\{40\}\)".*/\1/p' install.sh)
           pinned_legacy=$(sed -n 's/^REF_LEGACY="\([0-9a-f]\{40\}\)".*/\1/p' install.sh)

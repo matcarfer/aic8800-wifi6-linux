@@ -51,8 +51,9 @@ find_kdir() {
     if [ "$distro" = local ]; then
         echo "/lib/modules/$(uname -r)/build"; return
     fi
+    local d
     for d in /usr/lib/modules/*/build /lib/modules/*/build /usr/src/kernels/*; do
-        [ -f "$d/Makefile" ] && readlink -f "$d"
+        if [ -f "$d/Makefile" ]; then readlink -f "$d"; fi
     done | sort -uV | tail -1
 }
 

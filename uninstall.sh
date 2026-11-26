@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # aic8800-wifi6-linux — removes the driver, firmware, udev rule and mode-switch
-# config installed by install.sh. License: GPL-3.0-or-later. Author: matcarfer.
+# config installed by install.sh (it runs upstream's uninstall.sh with the same
+# Omarchy/Limine fix as install.sh). See docs/ARCHITECTURE.md.
+#
+# Copyright (C) 2026 matcarfer and contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 set -uo pipefail
 
 PREFIX="/usr/local/src/aic8800-wifi6-linux"

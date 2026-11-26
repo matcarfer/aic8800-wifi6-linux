@@ -1,0 +1,40 @@
+name: "No funcionó · It didn't work"
+description: "El instalador falló o la placa no anda · The installer failed or the adapter doesn't work"
+labels: [error]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Podés escribir en castellano o en inglés · You can write in Spanish or English.
+        Si el problema aparece **después** de instalar (cortes, velocidad), es del driver: [upstream](https://github.com/shenmintao/aic8800d80/issues).
+  - type: input
+    id: distro
+    attributes:
+      label: "Distro y kernel · Distro and kernel"
+      description: "`uname -r`"
+      placeholder: "Omarchy, 7.2.15-4-omarchy"
+    validations:
+      required: true
+  - type: input
+    id: adapter
+    attributes:
+      label: "Placa (marca/modelo) · Adapter (brand/model)"
+      placeholder: "Genérica WIFI6 AX900 / Tenda U11 / …"
+  - type: textarea
+    id: what
+    attributes:
+      label: "Qué pasó · What happened"
+      description: "Pegá la salida del instalador · Paste the installer output"
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: diagnose
+    attributes:
+      label: "Diagnóstico · Diagnostics"
+      description: |
+        Corré esto y pegá el contenido (o adjuntá `aic8800-diagnose.txt`) · Run this and paste the output (or attach `aic8800-diagnose.txt`):
+        `curl -fsSL https://raw.githubusercontent.com/matcarfer/aic8800-wifi6-linux/main/diagnose.sh | sudo bash`
+      render: text
+    validations:
+      required: true

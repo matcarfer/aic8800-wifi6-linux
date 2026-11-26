@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # aic8800-wifi6-linux — read-only report to attach to a GitHub issue.
 # It changes nothing. MAC addresses are partially hidden.
-# License: GPL-3.0-or-later. Author: matcarfer.
+# Copyright (C) 2026 matcarfer and contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
 set -u
 OUT="${1:-aic8800-diagnose.txt}"
 mask() { sed -E 's/([0-9a-fA-F]{2}:){3}([0-9a-fA-F]{2}:){2}[0-9a-fA-F]{2}/xx:xx:xx:\2xx/g'; }

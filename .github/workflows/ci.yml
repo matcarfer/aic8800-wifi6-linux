@@ -1,0 +1,26 @@
+# Lint and unit tests on every push and pull request.
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bash syntax
+        run: for f in *.sh .github/scripts/*.sh; do bash -n "$f"; done
+      - name: shellcheck
+        run: shellcheck -S warning *.sh .github/scripts/*.sh
+      - name: tests (fake sysfs, no root)
+        run: python3 tests/test_install.py -v
+      - name: every doc has its translation
+        run: |
+          missing=0
+          for f in AGENTS CHANGELOG CODE_OF_CONDUCT CONTRIBUTING CREDITS SECURITY docs/ARCHITECTURE docs/MAINTAINING; do
+            for suffix in .md .es.md; do [ -f "$f$suffix" ] || { echo "missing $f$suffix"; missing=1; }; done
+          done
+          for f in README.md README.en.md LICENSE LICENSE.en; do [ -f "$f" ] || { echo "missing $f"; missing=1; }; done
+          exit $missing

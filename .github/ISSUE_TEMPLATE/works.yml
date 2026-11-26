@@ -1,0 +1,36 @@
+name: "¡Funcionó! · It works!"
+description: "Sumá tu distro y placa a la tabla de probadas (1 minuto) · Add your distro and adapter to the tested table (1 minute)"
+labels: [probado]
+body:
+  - type: markdown
+    attributes:
+      value: "¡Gracias! Esto ayuda a la próxima persona · Thanks! This helps the next person."
+  - type: input
+    id: distro
+    attributes:
+      label: "Distro y kernel · Distro and kernel"
+      description: "`uname -r`"
+      placeholder: "Ubuntu 26.04, 7.1.0-10-generic"
+    validations:
+      required: true
+  - type: input
+    id: adapter
+    attributes:
+      label: "Placa (marca/modelo) · Adapter (brand/model)"
+      placeholder: "Genérica WIFI6 AX900"
+    validations:
+      required: true
+  - type: input
+    id: lsusb
+    attributes:
+      label: "`lsusb` antes → después · before → after"
+      placeholder: "1111:1111 88M80 → a69c:8d81"
+  - type: checkboxes
+    id: works
+    attributes:
+      label: "Qué anda · What works"
+      options:
+        - label: "WiFi 2.4 GHz"
+        - label: "WiFi 5 GHz"
+        - label: "Bluetooth"
+        - label: "Sigue andando después de reiniciar · Still works after reboot"

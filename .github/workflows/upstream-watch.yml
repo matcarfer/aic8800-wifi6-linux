@@ -1,0 +1,47 @@
+# Weekly: are there upstream commits newer than the pinned REF_MAIN / REF_LEGACY?
+# If so, opens (or updates) one "upstream-update" issue. Never changes code:
+# a human tests on hardware and bumps the refs (docs/MAINTAINING.md).
+name: upstream-watch
+on:
+  schedule:
+    - cron: "41 7 * * 1"   # Mondays 07:41 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      UP: shenmintao/aic8800d80
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pinned_main=$(sed -n 's/^REF_MAIN="\([0-9a-f]\{40\}\)".*/\1/p' install.sh)
+          pinned_legacy=$(sed -n 's/^REF_LEGACY="\([0-9a-f]\{40\}\)".*/\1/p' install.sh)
+          head_main=$(gh api "repos/$UP/branches/main" --jq .commit.sha)
+          head_legacy=$(gh api "repos/$UP/branches/legacy-mcu1" --jq .commit.sha)
+          lines=""
+          if [ "$pinned_main" != "$head_main" ]; then
+            lines="$lines
+          - \`main\`: pinned \`${pinned_main:0:7}\`, upstream \`${head_main:0:7}\`. [compare](https://github.com/$UP/compare/$pinned_main...$head_main)"
+          fi
+          if [ "$pinned_legacy" != "$head_legacy" ]; then
+            lines="$lines
+          - \`legacy-mcu1\`: pinned \`${pinned_legacy:0:7}\`, upstream \`${head_legacy:0:7}\`. [compare](https://github.com/$UP/compare/$pinned_legacy...$head_legacy)"
+          fi
+          if [ -z "$lines" ]; then echo "Up to date."; exit 0; fi
+          body="Upstream has new commits / Upstream tiene commits nuevos:
+          $lines
+
+          Before bumping, follow docs/MAINTAINING.md → \"Bumping the upstream commit\": read the diff, run kernel-build on a branch, **test on a real adapter**.
+          Antes de actualizar: docs/MAINTAINING.es.md → \"Actualizar el commit de upstream\" (probar con placa real)."
+          gh label create upstream-update --color 0E8A16 --description "Newer upstream driver commits available" 2>/dev/null || true
+          existing=$(gh issue list --label upstream-update --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body "$body"
+          else
+            gh issue create --title "New upstream driver commits to review" --label upstream-update --body "$body"
+          fi

@@ -1,0 +1,56 @@
+# Builds the pinned upstream driver (REF_MAIN / REF_LEGACY in install.sh) against
+# the newest kernel headers of each distro. Weekly, on demand, and whenever the
+# pinned refs change. A scheduled failure opens (or updates) a "kernel-break" issue.
+name: kernel-build
+on:
+  schedule:
+    - cron: "23 6 * * 1"   # Mondays 06:23 UTC
+  workflow_dispatch:
+  push:
+    paths: [install.sh, .github/scripts/kernel-build.sh, .github/workflows/kernel-build.yml]
+  pull_request:
+    paths: [install.sh, .github/scripts/kernel-build.sh, .github/workflows/kernel-build.yml]
+permissions:
+  contents: read
+jobs:
+  build:
+    name: ${{ matrix.distro }} / ${{ matrix.branch }}
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [omarchy, arch, ubuntu, fedora]
+        branch: [main, legacy]
+        include:
+          - {distro: omarchy, image: "archlinux:latest"}
+          - {distro: arch, image: "archlinux:latest"}
+          - {distro: ubuntu, image: "ubuntu:latest"}
+          - {distro: fedora, image: "fedora:latest"}
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash .github/scripts/kernel-build.sh ${{ matrix.distro }} ${{ matrix.branch }}
+
+  report:
+    needs: build
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - run: |
+          gh label create kernel-break --color B60205 --description "A new kernel breaks the driver build" 2>/dev/null || true
+          body="The weekly build of the pinned driver failed on at least one distro/kernel: $RUN_URL
+
+          Follow docs/MAINTAINING.md → \"When kernel-build opens a kernel-break issue\".
+          La compilación semanal falló en al menos una distro/kernel. Ver docs/MAINTAINING.es.md."
+          existing=$(gh issue list --label kernel-break --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "Still failing: $RUN_URL"
+          else
+            gh issue create --title "Driver no longer builds on a new kernel" --label kernel-break --body "$body"
+          fi

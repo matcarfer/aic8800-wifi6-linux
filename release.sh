@@ -24,8 +24,15 @@ done
 [ "$(git rev-parse --abbrev-ref HEAD)" = main ] || { echo "Publicá desde main"; exit 1; }
 
 for f in *.sh .github/scripts/*.sh; do bash -n "$f"; done
-shellcheck -S warning ./*.sh .github/scripts/*.sh
 python3 tests/test_install.py
+if command -v shellcheck >/dev/null; then
+    shellcheck -S warning ./*.sh .github/scripts/*.sh
+else
+    # No local shellcheck: require the CI run of this exact commit to be green.
+    sha=$(git rev-parse HEAD)
+    ci=$(gh run list --workflow ci --commit "$sha" --json conclusion --jq '.[0].conclusion')
+    [ "$ci" = success ] || { echo "Sin shellcheck local y la CI de ${sha:0:7} no está en verde ($ci)"; exit 1; }
+fi
 
 section() { awk -v v="## [$VERSION]" 'index($0,v)==1{f=1;next} /^## /{f=0} f' "$1"; }
 NOTES="$(section CHANGELOG.md)

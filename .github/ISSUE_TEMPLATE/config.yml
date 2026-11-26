@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Problema de seguridad · Security problem
+    url: https://github.com/matcarfer/aic8800-wifi6-linux/security/advisories/new
+    about: Reportalo en privado, no en un issue público · Report it privately, not in a public issue
+  - name: Problemas del driver en sí · Driver bugs
+    url: https://github.com/shenmintao/aic8800d80/issues
+    about: Cortes, velocidad o fallas del driver una vez instalado van a upstream · Drops, speed or driver bugs after install go upstream

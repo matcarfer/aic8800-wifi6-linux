@@ -68,6 +68,7 @@ Siempre en este orden, en los dos README y en `.github/FUNDING.yml`:
 3. Mercado Pago: https://link.mercadopago.com.ar/matcarfer
 4. Ko-fi: https://ko-fi.com/matcarfer
 5. Patreon: https://www.patreon.com/matcarfer
+6. GitHub Sponsors: https://github.com/sponsors/matcarfer
 
 ## PRs a upstream desde este repo
 

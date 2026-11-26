@@ -29,7 +29,7 @@ Los tres tienen que pasar. La CI corre lo mismo.
 11. **Documentos en los dos idiomas:** cada `X.md` tiene su gemelo `X.es.md` (los README son la excepción: `README.md` en castellano y `README.en.md` en inglés). Actualizá los dos en el mismo cambio.
 12. **Créditos:** si usás un hallazgo, arreglo o código de alguien, sumalo a `CREDITS.md` y `CREDITS.es.md`.
 13. **Encabezado** en cada script: `Copyright (C) 2026 matcarfer and contributors` y `SPDX-License-Identifier: GPL-3.0-or-later`.
-14. **Links de donación**, donde aparezcan: Cafecito, Matecito, Mercado Pago, Ko-fi, Patreon, en ese orden (docs/MAINTAINING.es.md).
+14. **Links de donación**, donde aparezcan: Cafecito, Matecito, Mercado Pago, Ko-fi, Patreon, GitHub Sponsors, en ese orden (docs/MAINTAINING.es.md).
 
 ## Mapa rápido
 

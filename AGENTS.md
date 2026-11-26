@@ -29,7 +29,7 @@ All three must pass. CI runs the same checks.
 11. **Docs in both languages:** each `X.md` has an `X.es.md` twin (READMEs are the exception: `README.md` is Spanish and `README.en.md` is English). Update both in the same change.
 12. **Credits:** when you use someone's finding, fix or code, add them to `CREDITS.md` and `CREDITS.es.md`.
 13. **Header** in every script: `Copyright (C) 2026 matcarfer and contributors` and `SPDX-License-Identifier: GPL-3.0-or-later`.
-14. **Donation links**, when they appear: Cafecito, Matecito, Mercado Pago, Ko-fi, Patreon, in that order (docs/MAINTAINING.md).
+14. **Donation links**, when they appear: Cafecito, Matecito, Mercado Pago, Ko-fi, Patreon, GitHub Sponsors, in that order (docs/MAINTAINING.md).
 
 ## Quick map
 
